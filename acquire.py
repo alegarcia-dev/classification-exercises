@@ -23,7 +23,7 @@ def _get_titanic_sql() -> str:
         SELECT * FROM passengers;
     '''
 
-def get_titanic_data() -> pd.core.frame.DataFrame:
+def get_titanic_data(use_cache = True) -> pd.core.frame.DataFrame:
     '''
     Return a dataframe containing data from the titanic dataset.
 
@@ -33,11 +33,11 @@ def get_titanic_data() -> pd.core.frame.DataFrame:
     .csv file.
     '''
 
-    if os.path.exists(titanic_file):
+    if os.path.exists(titanic_file) and use_cache:
         return pd.read_csv(titanic_file)
     else:
         df = pd.read_sql(_get_titanic_sql(), get_db_url(titanic_db))
-        df.to_csv(titanic_file)
+        df.to_csv(titanic_file, index = False)
         return df
 
 def _get_iris_sql() -> str:
@@ -47,7 +47,7 @@ def _get_iris_sql() -> str:
         JOIN species USING (species_id);
     '''
 
-def get_iris_data() -> pd.core.frame.DataFrame:
+def get_iris_data(use_cache = True) -> pd.core.frame.DataFrame:
     '''
     Return a dataframe containing data from the iris dataset.
 
@@ -57,11 +57,11 @@ def get_iris_data() -> pd.core.frame.DataFrame:
     .csv file.
     '''
 
-    if os.path.exists(iris_file):
+    if os.path.exists(iris_file) and use_cache:
         return pd.read_csv(iris_file)
     else:
         df = pd.read_sql(_get_iris_sql(), get_db_url(iris_db))
-        df.to_csv(iris_file)
+        df.to_csv(iris_file, index = False)
         return df
 
 def _get_telco_sql() -> str:
@@ -73,7 +73,7 @@ def _get_telco_sql() -> str:
         JOIN contract_types USING (contract_type_id);
     '''
 
-def get_telco_data() -> pd.core.frame.DataFrame:
+def get_telco_data(use_cache = True) -> pd.core.frame.DataFrame:
     '''
     Return a dataframe containing data from the telco dataset.
 
@@ -83,9 +83,9 @@ def get_telco_data() -> pd.core.frame.DataFrame:
     .csv file.
     '''
 
-    if os.path.exists(telco_file):
+    if os.path.exists(telco_file) and use_cache:
         return pd.read_csv(telco_file)
     else:
         df = pd.read_sql(_get_telco_sql(), get_db_url(telco_db))
-        df.to_csv(telco_file)
+        df.to_csv(telco_file, index = False)
         return df
