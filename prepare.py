@@ -79,8 +79,7 @@ def prep_telco_data(df: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     DataFrame : A Pandas DataFrame containing the telco dataset with transformations.
         The resultant dataframe has the phone_service, contract_type_id, 
         internet_service_type_id, and payment_type_id columns removed, and encoded
-        variables for all categorical columns (all non-numeric columns except customer_id 
-        and total_charges).
+        variables for all categorical columns (all non-numeric columns except customer_id).
     '''
 
     df = df.drop_duplicates()
@@ -93,8 +92,10 @@ def prep_telco_data(df: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     ]
     df = df.drop(columns = cols_to_drop)
 
+    df.total_charges = df.total_charges.replace(' ', np.nan).astype(float)
+
     categorical_cols = df.dtypes[df.dtypes == 'object'].index
-    categorical_cols = categorical_cols.drop(labels = ['customer_id', 'total_charges'])
+    categorical_cols = categorical_cols.drop(labels = ['customer_id'])
 
     dummy_df = pd.get_dummies(df[categorical_cols], dummy_na = False, drop_first = True)
     df = pd.concat([df, dummy_df], axis = 1)
