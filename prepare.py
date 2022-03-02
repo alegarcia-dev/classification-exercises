@@ -1,3 +1,23 @@
+####################
+#
+#   prepare.py
+#   ----------
+#   
+#   Description:
+#       Provides functions for preparing and splitting raw datasets for 
+#       exploratory analysis.
+#
+#   Fields:
+#       None
+#
+#   Functions:
+#       prep_iris_data(df)
+#       prep_titanic_data(df)
+#       prep_telco_data(df)
+#       split_data(df, stratify, random_seed = 24)
+#
+####################
+
 import pandas as pd
 
 ##########
@@ -103,3 +123,57 @@ def prep_telco_data(df: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     df = pd.concat([df, dummy_df], axis = 1)
 
     return df
+
+def split_data(df: pd.core.frame.DataFrame, stratify: str, random_seed: int = 24) -> tuple[
+    pd.core.frame.DataFrame,
+    pd.core.frame.DataFrame,
+    pd.core.frame.DataFrame
+]:
+    '''
+        Accepts a DataFrame and returns train, validate, and test DataFrames.
+        Splits are performed randomly.
+
+        Proportion of original dataframe that each return dataframe comprises.
+        ---------------
+        Train:      56% (70% of 80%)
+        Validate:   24% (30% of 80%)
+        Test:       20%
+
+        Parameters
+        ----------
+        df : DataFrame
+            A Pandas DataFrame containing prepared data. It is expected that
+            the input to this function will already have been prepared and
+            tidied so that it will be ready for exploratory analysis.
+
+        stratify : str
+            A string value containing the name of the column to be stratified
+            in the sklearn train_test_split function. This parameter should
+            be the name of a column in the df dataframe.
+
+        random_seed : int, default 24
+            An integer value to be used as the random number seed. This parameter
+            is passed to the random_state argument in the sklearn train_test_split
+            function.
+
+        Returns
+        -------
+        tuple : A tuple containing three Pandas DataFrames for train, validate
+            and test datasets.    
+    '''
+    train_test_split = 0.2
+    train_validate_split = 0.3
+
+    train_validate, test = train_test_split(
+        df,
+        test_size = train_test_split,
+        random_state = random_seed,
+        stratify = df[stratify]
+    )
+    train, validate = train_test_split(
+        train_validate,
+        test_size = train_validate_split,
+        random_state = random_seed,
+        stratify = train_validate[stratify]
+    )
+    return train, validate, test

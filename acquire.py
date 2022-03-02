@@ -1,3 +1,30 @@
+####################
+#
+#   acquire.py
+#   ----------
+#   
+#   Description:
+#       Provides functions for acquiring and cacheing commonly used
+#       datasets.
+#
+#   Fields:
+#       _titanic_file
+#       _titanic_db
+#       _iris_file
+#       _iris_db
+#       _telco_file
+#       _telco_db
+#
+#   Functions:
+#       _get_titanic_sql()
+#       get_titanic_data(use_cache = True)
+#       _get_iris_sql()
+#       get_iris_data(use_cache = True)
+#       _get_telco_sql()
+#       get_telco_data(use_cache = True)
+#
+####################
+
 import pandas as pd
 import os
 
@@ -28,7 +55,7 @@ def _get_titanic_sql() -> str:
         SELECT * FROM passengers;
     '''
 
-def get_titanic_data(use_cache = True) -> pd.core.frame.DataFrame:
+def get_titanic_data(use_cache: bool = True) -> pd.core.frame.DataFrame:
     '''
     Return a dataframe containing data from the titanic dataset.
 
@@ -70,7 +97,7 @@ def _get_iris_sql() -> str:
         JOIN species USING (species_id);
     '''
 
-def get_iris_data(use_cache = True) -> pd.core.frame.DataFrame:
+def get_iris_data(use_cache: bool = True) -> pd.core.frame.DataFrame:
     '''
     Return a dataframe containing data from the iris dataset.
 
@@ -114,7 +141,7 @@ def _get_telco_sql() -> str:
         JOIN contract_types USING (contract_type_id);
     '''
 
-def get_telco_data(use_cache = True) -> pd.core.frame.DataFrame:
+def get_telco_data(use_cache: bool = True) -> pd.core.frame.DataFrame:
     '''
     Return a dataframe containing data from the telco dataset.
 
