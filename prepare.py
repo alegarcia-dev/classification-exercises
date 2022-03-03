@@ -114,11 +114,11 @@ def prep_telco_data(df: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     ]
     df = df.drop(columns = cols_to_drop)
 
-    telco.total_charges = telco.total_charges.str.strip()
-    telco = telco[telco.total_charges != '']
+    df.total_charges = df.total_charges.str.strip()
+    df = df[df.total_charges != '']
 
     categorical_cols = df.dtypes[df.dtypes == 'object'].index
-    categorical_cols = categorical_cols.drop(labels = ['customer_id', 'total_charges'])
+    categorical_cols = categorical_cols.drop(labels = ['total_charges'])
 
     dummy_df = pd.get_dummies(df[categorical_cols], dummy_na = False, drop_first = True)
     df = pd.concat([df, dummy_df], axis = 1)
