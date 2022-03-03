@@ -19,6 +19,7 @@
 ####################
 
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 ##########
 
@@ -124,7 +125,7 @@ def prep_telco_data(df: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
 
     return df
 
-def split_data(df: pd.core.frame.DataFrame, stratify: str, random_seed: int = 24) -> tuple[
+def split_data(df: pd.core.frame.DataFrame, stratify_column: str, random_seed: int = 24) -> tuple[
     pd.core.frame.DataFrame,
     pd.core.frame.DataFrame,
     pd.core.frame.DataFrame
@@ -161,19 +162,19 @@ def split_data(df: pd.core.frame.DataFrame, stratify: str, random_seed: int = 24
         tuple : A tuple containing three Pandas DataFrames for train, validate
             and test datasets.    
     '''
-    train_test_split = 0.2
+    test_split = 0.2
     train_validate_split = 0.3
 
     train_validate, test = train_test_split(
         df,
-        test_size = train_test_split,
+        test_size = test_split,
         random_state = random_seed,
-        stratify = df[stratify]
+        stratify = df[stratify_column]
     )
     train, validate = train_test_split(
         train_validate,
         test_size = train_validate_split,
         random_state = random_seed,
-        stratify = train_validate[stratify]
+        stratify = train_validate[stratify_column]
     )
     return train, validate, test
