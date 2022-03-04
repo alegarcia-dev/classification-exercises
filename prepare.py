@@ -74,7 +74,7 @@ def prep_titanic_data(df: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
 
     df = df.drop_duplicates()
 
-    cols_to_drop = ['deck', 'embarked', 'class', 'age']
+    cols_to_drop = ['passenger_id', 'deck', 'embarked', 'class', 'age']
     df = df.drop(columns=cols_to_drop)
 
     df['embark_town'] = df.embark_town.fillna(value='Southampton')
